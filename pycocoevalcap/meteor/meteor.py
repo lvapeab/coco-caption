@@ -15,13 +15,12 @@ METEOR_JAR = 'meteor-1.5.jar'
 
 class Meteor:
 
-    def __init__(self):
+    def __init__(self, language='en'):
         d = dict(os.environ.copy())
         d['LANG'] = 'C'
         self.meteor_cmd = ['java', '-jar', '-Xmx2G', METEOR_JAR, \
-                '-', '-', '-stdio', '-l', 'en', '-norm']
-        self.meteor_p = subprocess.Popen(self.meteor_cmd, \
-                cwd=os.path.dirname(os.path.abspath(__file__)), \
+                '-', '-', '-stdio', '-l', language, '-norm']
+        self.meteor_p = subprocess.Popen(self.meteor_cmd,  cwd=os.path.dirname(os.path.abspath(__file__)), \
                 stdin=subprocess.PIPE, \
                 stdout=subprocess.PIPE, \
                 stderr=subprocess.PIPE, env=d)
