@@ -1,7 +1,7 @@
 Microsoft COCO Caption Evaluation
 ===================
 
-Evaluation codes for MS COCO caption generation.
+Evaluation codes for MS COCO caption generation. Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA)
 
 ## Requirements ##
 - java 1.8.0
