@@ -18,16 +18,11 @@ class Meteor:
     def __init__(self, language='en'):
         d = dict(os.environ.copy())
         d['LANG'] = 'C'
-        self.meteor_cmd = ['java', '-jar', '-Xmx2G', METEOR_JAR, \
-                '-', '-', '-stdio', '-l', language, '-norm']
-        self.meteor_p = subprocess.Popen(self.meteor_cmd,  cwd=os.path.dirname(os.path.abspath(__file__)), \
-                stdin=subprocess.PIPE, \
-                stdout=subprocess.PIPE, \
-                stderr=subprocess.PIPE, env=d)
+        self.meteor_cmd = ['java', '-jar', '-Xmx2G', METEOR_JAR, '-', '-', '-stdio', '-l', language, '-norm']
+        self.meteor_p = subprocess.Popen(self.meteor_cmd,  cwd=os.path.dirname(os.path.abspath(__file__)),
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=d)
         # Used to guarantee thread safety
         self.lock = threading.Lock()
-
-
 
     def compute_score(self, gts, res):
         assert(gts.keys() == res.keys())
@@ -74,7 +69,7 @@ class Meteor:
         score = float(self.meteor_p.stdout.readline().strip())
         # bug fix: there are two values returned by the jar file, one average, and one all, so do it twice
         # thanks for Andrej for pointing this out
-        #score = float(self.meteor_p.stdout.readline().strip())
+        score = float(self.meteor_p.stdout.readline().strip())
 
         self.lock.release()
         return score
