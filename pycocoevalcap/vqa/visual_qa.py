@@ -49,10 +49,10 @@ class VQA:
 				dataset = json.load(open(annotation_file, 'r'))
 			else:
 				dataset = init_empty_dataset()
-		questions = json.load(open(question_file, 'r'))
-		self.dataset = dataset
-		self.questions = questions
-		self.createIndex()
+			questions = json.load(open(question_file, 'r'))
+			self.dataset = dataset
+			self.questions = questions
+			self.createIndex()
 
 	def createIndex(self):
 		# create index
