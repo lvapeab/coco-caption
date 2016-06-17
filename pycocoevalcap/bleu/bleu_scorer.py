@@ -255,7 +255,7 @@ class BleuScorer(object):
             for k in xrange(n):
                 bleus[k] *= math.exp(1 - 1/ratio)
 
-        if verbose > 0:
+        if verbose > 1:
             print totalcomps
             print "ratio:", ratio
 
