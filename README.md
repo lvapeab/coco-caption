@@ -7,6 +7,12 @@ Evaluation codes for MS COCO caption generation. Also includes code from [Visual
 - java 1.8.0
 - python 2.7
 
+## Installation ##
+
+```
+export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
+```
+
 ## Files ##
 ./
 - cocoEvalCapDemo.py (demo script)
