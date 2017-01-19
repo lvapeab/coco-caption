@@ -10,8 +10,6 @@ import threading
 
 # Assumes meteor-1.5.jar is in the same directory as meteor.py.  Change as needed.
 METEOR_JAR = 'meteor-1.5.jar'
-#METEOR_JAR = '/u/chokyun/work/meteor-1.5/meteor-1.5.jar'
-# print METEOR_JAR
 
 class Meteor:
 
@@ -19,7 +17,7 @@ class Meteor:
         d = dict(os.environ.copy())
         d['LANG'] = 'C'
         self.meteor_cmd = ['java', '-jar', '-Xmx2G', METEOR_JAR, '-', '-', '-stdio', '-l', language, '-norm']
-        self.meteor_p = subprocess.Popen(self.meteor_cmd,  cwd=os.path.dirname(os.path.abspath(__file__)),
+        self.meteor_p = subprocess.Popen(self.meteor_cmd, cwd=os.path.dirname(os.path.abspath(__file__)),
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=d)
         # Used to guarantee thread safety
         self.lock = threading.Lock()
@@ -70,11 +68,10 @@ class Meteor:
         # bug fix: there are two values returned by the jar file, one average, and one all, so do it twice
         # thanks for Andrej for pointing this out
         score = float(self.meteor_p.stdout.readline().strip())
-
         self.lock.release()
         return score
  
-    def __exit__(self):
+    def __del__(self):
         self.lock.acquire()
         self.meteor_p.stdin.close()
         self.meteor_p.kill()
