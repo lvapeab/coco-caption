@@ -1,7 +1,9 @@
 Microsoft COCO Caption Evaluation
 ===================
 
-Evaluation codes for MS COCO caption generation. Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA)
+Evaluation codes for MS COCO caption generation. Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA).
+
+Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)).
 
 ## Requirements ##
 - java 1.8.0
@@ -32,6 +34,7 @@ export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 - meteor: Meteor evaluation codes
 - rouge: Rouge-L evaluation codes
 - cider: CIDEr evaluation codes
+- ter: TER evaluation codes
 
 ## References ##
 
@@ -40,8 +43,8 @@ export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 - BLEU: [BLEU: a Method for Automatic Evaluation of Machine Translation](http://www.aclweb.org/anthology/P02-1040.pdf)
 - Meteor: [Project page](http://www.cs.cmu.edu/~alavie/METEOR/) with related publications. We use the latest version (1.5) of the [Code](https://github.com/mjdenkowski/meteor). Changes have been made to the source code to properly aggreate the statistics for the entire corpus.
 - Rouge-L: [ROUGE: A Package for Automatic Evaluation of Summaries](http://anthology.aclweb.org/W/W04/W04-1013.pdf)
-- CIDEr: [CIDEr: Consensus-based Image Description Evaluation] (http://arxiv.org/pdf/1411.5726.pdf)
-
+- CIDEr: [CIDEr: Consensus-based Image Description Evaluation](http://arxiv.org/pdf/1411.5726.pdf)
+- TER: [Translation Edit Rate with Targeted Human Annotation](https://www.cs.umd.edu/~snover/pub/amta06/ter_amta.pdf)
 ## Developers ##
 - Xinlei Chen (CMU)
 - Hao Fang (University of Washington)
