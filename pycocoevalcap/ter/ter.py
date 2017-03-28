@@ -18,9 +18,6 @@ class Ter:
         self.d['LANG'] = 'C'
         self.ter_cmd = "bash " + TER_JAR + " -r /tmp/aux.ref -h /tmp/aux.hyp " \
                        + additional_flags + "| grep TER | awk '{print $3}'"
-        self.ter_p = subprocess.Popen(self.ter_cmd, cwd=os.path.dirname(os.path.abspath(__file__)),
-                                      stdout=subprocess.PIPE, shell=True, env=self.d)
-
         # Used to guarantee thread safety
         self.lock = threading.Lock()
 
@@ -43,7 +40,8 @@ class Ter:
                 f.write(res_ter)
         if warn:
             print "Warning! Multi-reference TER unimplemented!"
-
+        self.ter_p = subprocess.Popen(self.ter_cmd, cwd=os.path.dirname(os.path.abspath(__file__)),
+                                      stdout=subprocess.PIPE, shell=True, env=self.d)
         score = self.ter_p.stdout.read()
         self.lock.release()
         self.ter_p.kill()
