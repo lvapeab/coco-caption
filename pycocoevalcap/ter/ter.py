@@ -3,8 +3,7 @@
 # Python wrapper for TER implementation, by Alvaro Peris.
 # Based on the Meteor implementation from PycocoEvalCap
 
-import os, time
-import sys
+import os
 import subprocess
 import threading
 
@@ -52,7 +51,6 @@ class Ter:
 
     def method(self):
         return "TER"
-
 
     def __del__(self):
         self.lock.acquire()
