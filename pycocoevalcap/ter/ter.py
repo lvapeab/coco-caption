@@ -6,6 +6,7 @@
 import os
 import subprocess
 import threading
+import random
 
 # Assumes tercom.7.25 and tercom.7.25.jar is in the same directory as ter.py.  Change as needed.
 
@@ -16,9 +17,12 @@ class Ter:
     def __init__(self, additional_flags=''):
         self.d = dict(os.environ.copy())
         self.d['LANG'] = 'C'
-        self.ter_cmd = "bash " + TER_JAR + " -r /tmp/aux.ref -h /tmp/aux.hyp " \
+        extension = str(random.randint(0, 10000000))
+        self.hyp_filename = "/tmp/" + extension + ".hyp"
+        self.ref_filename = "/tmp/" + extension + ".ref"
+        self.ter_cmd = "bash " + TER_JAR + " -r " + self.ref_filename + " -h " + self.hyp_filename \
                        + additional_flags + "| grep TER | awk '{print $3}'"
-        self.clean_cmd = "rm -f  /tmp/aux.ref /tmp/aux.hyp"
+        self.clean_cmd = "rm -f " + self.ref_filename + " " + self.hyp_filename
         # Used to guarantee thread safety
         self.lock = threading.Lock()
 
@@ -35,9 +39,9 @@ class Ter:
                 warn = True
             gts_ter += gts[i][0] + '\t(sentence%d)\n' % i
             res_ter += res[i][0] + '\t(sentence%d)\n' % i
-            with open('/tmp/aux.ref', 'w') as f:
+            with open(self.ref_filename, 'w') as f:
                 f.write(gts_ter)
-            with open('/tmp/aux.hyp', 'w') as f:
+            with open(self.hyp_filename, 'w') as f:
                 f.write(res_ter)
         if warn:
             print "Warning! Multi-reference TER unimplemented!"
