@@ -1,9 +1,13 @@
 Microsoft COCO Caption Evaluation
 ===================
 
-Evaluation codes for MS COCO caption generation. Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA).
+Evaluation codes for caption generation or machine translation. 
 
-Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)).
+Original code: [COCO Caption](https://github.com/tylin/coco-caption)
+
+Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA).
+
+Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)) and sentence-level BLEU[from Nematus](https://github.com/rsennrich/nematus/tree/master/nematus/metrics)!.
 
 ## Requirements ##
 - java 1.8.0
@@ -14,27 +18,6 @@ Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)).
 ```
 export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 ```
-
-## Files ##
-./
-- cocoEvalCapDemo.py (demo script)
-
-./annotation
-- captions_val2014.json (MS COCO 2014 caption validation set)
-- Visit MS COCO [download](http://mscoco.org/dataset/#download) page for more details.
-
-./results
-- captions_val2014_fakecap_results.json (an example of fake results for running demo)
-- Visit MS COCO [format](http://mscoco.org/dataset/#format) page for more details.
-
-./pycocoevalcap: The folder where all evaluation codes are stored.
-- evals.py: The file includes COCOEavlCap class that can be used to evaluate results on COCO.
-- tokenizer: Python wrapper of Stanford CoreNLP PTBTokenizer
-- bleu: Bleu evalutation codes
-- meteor: Meteor evaluation codes
-- rouge: Rouge-L evaluation codes
-- cider: CIDEr evaluation codes
-- ter: TER evaluation codes
 
 ## References ##
 
