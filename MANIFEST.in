@@ -1,0 +1,3 @@
+include pycocoevalcap/ter/tercom.7.25
+include pycocoevalcap/meteor/*.jar
+include pycocoevalcap/meteor/data/*
