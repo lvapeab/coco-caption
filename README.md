@@ -1,5 +1,5 @@
-Microsoft COCO Caption Evaluation
-===================
+Coco Evaluation
+===============
 
 Evaluation codes for caption generation or machine translation. 
 
@@ -28,11 +28,13 @@ export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 - Rouge-L: [ROUGE: A Package for Automatic Evaluation of Summaries](http://anthology.aclweb.org/W/W04/W04-1013.pdf)
 - CIDEr: [CIDEr: Consensus-based Image Description Evaluation](http://arxiv.org/pdf/1411.5726.pdf)
 - TER: [Translation Edit Rate with Targeted Human Annotation](https://www.cs.umd.edu/~snover/pub/amta06/ter_amta.pdf)
+
 ## Developers ##
 - Xinlei Chen (CMU)
 - Hao Fang (University of Washington)
 - Tsung-Yi Lin (Cornell)
 - Ramakrishna Vedantam (Virgina Tech)
+- Álvaro Peris (Universitat Politècnica de València)
 
 ## Acknowledgement ##
 - David Chiang (University of Norte Dame)
