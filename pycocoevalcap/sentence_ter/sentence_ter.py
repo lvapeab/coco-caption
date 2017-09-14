@@ -30,6 +30,7 @@ class SentenceTerScorer(Scorer):
         Initialises metric-specific parameters.
         """
         Scorer.__init__(self, argument_string='')
+        self._reference = None
         # use n-gram order of 4 by default
         self.additional_flags = argument_string
 
@@ -37,6 +38,12 @@ class SentenceTerScorer(Scorer):
         """
         Sets the reference against hypotheses are scored.
         """
+
+        if hasattr(self._reference, 'extension'):
+            self._reference.lock.acquire()
+            clean_p = subprocess.Popen(self._reference.clean_cmd, shell=True)
+            clean_p.communicate()
+            self._reference.lock.release()
         self._reference = SentenceTerReference(
             reference_tokens,
             additional_flags=self.additional_flags
@@ -53,14 +60,14 @@ class SentenceTerReference(Reference):
         Computes the TER of a sentence.
         :param reference_tokens: the reference translation that hypotheses shall be
                          scored against. Must be an iterable of tokens (any
-                         type).
+                 /tmp/3420971.ref        type).
         :param additional_flags: additional TERCOM flags.
         """
         self.d = dict(os.environ.copy())
         self.d['LANG'] = 'C'
-        extension = str(random.randint(0, 10000000))
-        self.hyp_filename = "/tmp/" + extension + ".hyp"
-        self.ref_filename = "/tmp/" + extension + ".ref"
+        self.extension = str(random.randint(0, 10000000))
+        self.hyp_filename = "/tmp/" + self.extension + ".hyp"
+        self.ref_filename = "/tmp/" + self.extension + ".ref"
         self.ter_cmd = "bash " + TER_JAR + " -r " + self.ref_filename + " -h " + self.hyp_filename \
                        + additional_flags + "| grep TER | awk '{print $3}'"
         self.clean_cmd = "rm -f " + self.ref_filename + " " + self.hyp_filename
@@ -88,8 +95,6 @@ class SentenceTerReference(Reference):
         self.ter_p = subprocess.Popen(self.ter_cmd, cwd=os.path.dirname(os.path.abspath(__file__)),
                                       stdout=subprocess.PIPE, shell=True, env=self.d)
         score = self.ter_p.stdout.read()
-        clean_p = subprocess.Popen(self.clean_cmd, shell=True)
-        clean_p.communicate()
         self.lock.release()
         self.ter_p.kill()
         return float(score)
