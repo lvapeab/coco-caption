@@ -7,7 +7,7 @@ Original code: [COCO Caption](https://github.com/tylin/coco-caption)
 
 Also includes code from [Visual Question Answering](https://github.com/VT-vision-lab/VQA).
 
-Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)) and sentence-level BLEU [from Nematus](https://github.com/rsennrich/nematus/tree/master/nematus/metrics)!.
+Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)) and sentence-level BLEU [from Nematus](https://github.com/rsennrich/nematus/tree/master/nematus/metrics)! and sentence-level TER.
 
 ## Requirements ##
 - java 1.8.0
