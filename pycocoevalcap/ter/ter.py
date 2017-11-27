@@ -7,6 +7,7 @@ import os
 import subprocess
 import threading
 import random
+import codecs
 
 # Assumes tercom.7.25 and tercom.7.25.jar is in the same directory as ter.py.  Change as needed.
 
@@ -30,18 +31,18 @@ class Ter:
         assert (gts.keys() == res.keys())
         imgIds = gts.keys()
         self.lock.acquire()
-        gts_ter = ''
-        res_ter = ''
+        gts_ter = u''
+        res_ter = u''
         warn = False
         for i in imgIds:
             assert (len(res[i]) == 1)
             if len(gts[i]) > 1:
                 warn = True
-            gts_ter += gts[i][0] + '\t(sentence%d)\n' % i
-            res_ter += res[i][0] + '\t(sentence%d)\n' % i
-            with open(self.ref_filename, 'w') as f:
+            gts_ter += gts[i][0].decode('utf-8') + u'\t(sentence%d)\n' % i
+            res_ter += res[i][0].decode('utf-8') + u'\t(sentence%d)\n' % i
+            with codecs.open(self.ref_filename, 'w', encoding='utf-8') as f:
                 f.write(gts_ter)
-            with open(self.hyp_filename, 'w') as f:
+            with codecs.open(self.hyp_filename, 'w', encoding='utf-8') as f:
                 f.write(res_ter)
         if warn:
             print "Warning! Multi-reference TER unimplemented!"
