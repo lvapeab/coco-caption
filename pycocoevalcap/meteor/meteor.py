@@ -2,7 +2,6 @@
 
 # Python wrapper for METEOR implementation, by Xinlei Chen
 # Acknowledge Michael Denkowski for the generous discussion and help 
-
 import os
 import subprocess
 import threading
@@ -27,15 +26,18 @@ class Meteor:
         imgIds = gts.keys()
         scores = []
 
-        eval_line = 'EVAL'
+        eval_line = u'EVAL'
         score_lines = []
         self.lock.acquire()
         for i in imgIds:
             assert (len(res[i]) == 1)
+            for j in range(len(gts[i])):
+                if type(gts[i][j]) == str:
+                    gts[i][j] = gts[i][j].decode('utf-8')
             score_line, stat = self._stat(res[i][0], gts[i])
             score_lines.append(score_line)
-            eval_line += ' ||| {}'.format(stat)
-        self.meteor_p.stdin.write('{}\n'.format(eval_line))
+            eval_line += u' ||| {}'.format(stat)
+        self.meteor_p.stdin.write(u'{}\n'.format(eval_line))
         time.sleep(1)
         for i in range(0, len(imgIds)):
             scores.append(float(self.meteor_p.stdout.readline().strip()))
@@ -49,21 +51,22 @@ class Meteor:
 
     def _stat(self, hypothesis_str, reference_list):
         # SCORE ||| reference 1 words ||| reference n words ||| hypothesis words
-        hypothesis_str = hypothesis_str.replace('|||', '').replace('  ', ' ')
-        score_line = ' ||| '.join(('SCORE', ' ||| '.join(reference_list), hypothesis_str))
-        self.meteor_p.stdin.write('{}\n'.format(score_line))
+        hypothesis_str = hypothesis_str.replace(u'|||', u'').replace(u'  ', u' ')
+        score_line = u' ||| '.join(('SCORE', ' ||| '.join(reference_list), hypothesis_str))
+        self.meteor_p.stdin.write('{}\n'.format(score_line.encode('utf-8')))
         return score_line, self.meteor_p.stdout.readline().strip()
 
     def _score(self, hypothesis_str, reference_list):
         self.lock.acquire()
         # SCORE ||| reference 1 words ||| reference n words ||| hypothesis words
-        hypothesis_str = hypothesis_str.replace('|||', '').replace('  ', ' ')
-        score_line = ' ||| '.join(('SCORE', ' ||| '.join(reference_list), hypothesis_str))
-        self.meteor_p.stdin.write('{}\n'.format(score_line))
+        hypothesis_str = hypothesis_str.replace(u'|||', u'').replace(u'  ', u' ')
+        score_line = u' ||| '.join((u'SCORE', u' ||| '.join(reference_list), hypothesis_str))
+        self.meteor_p.stdin.write(u'{}\n'.format(score_line))
         stats = self.meteor_p.stdout.readline().strip()
-        eval_line = 'EVAL ||| {}'.format(stats)
-        # EVAL ||| stats 
-        self.meteor_p.stdin.write('{}\n'.format(eval_line))
+        eval_line = u'EVAL ||| {}'.format(stats)
+
+        # EVAL ||| stats
+        self.meteor_p.stdin.write(u'{}\n'.format(eval_line))
         score = float(self.meteor_p.stdout.readline().strip())
         # bug fix: there are two values returned by the jar file, one average, and one all, so do it twice
         # thanks for Andrej for pointing this out

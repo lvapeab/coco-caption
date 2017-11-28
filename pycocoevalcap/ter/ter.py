@@ -2,13 +2,11 @@
 
 # Python wrapper for TER implementation, by Alvaro Peris.
 # Based on the Meteor implementation from PycocoEvalCap
-
 import os
 import subprocess
 import threading
 import random
 import codecs
-
 # Assumes tercom.7.25 and tercom.7.25.jar is in the same directory as ter.py.  Change as needed.
 
 TER_JAR = 'tercom.7.25'
@@ -31,15 +29,19 @@ class Ter:
         assert (gts.keys() == res.keys())
         imgIds = gts.keys()
         self.lock.acquire()
-        gts_ter = u''
-        res_ter = u''
+        gts_ter = ''
+        res_ter = ''
         warn = False
         for i in imgIds:
             assert (len(res[i]) == 1)
             if len(gts[i]) > 1:
                 warn = True
-            gts_ter += gts[i][0].decode('utf-8') + u'\t(sentence%d)\n' % i
-            res_ter += res[i][0].decode('utf-8') + u'\t(sentence%d)\n' % i
+            for j in range(len(gts[i])):
+                if type(gts[i][j]) == str:
+                    gts[i][j] = gts[i][j].decode('utf-8')
+
+            gts_ter += gts[i][0] + u'\t(sentence%d)\n' % i
+            res_ter += res[i][0] + u'\t(sentence%d)\n' % i
             with codecs.open(self.ref_filename, 'w', encoding='utf-8') as f:
                 f.write(gts_ter)
             with codecs.open(self.hyp_filename, 'w', encoding='utf-8') as f:
