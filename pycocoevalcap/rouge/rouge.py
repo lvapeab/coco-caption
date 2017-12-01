@@ -99,7 +99,13 @@ class Rouge():
             assert (len(hypo) == 1)
             assert (type(ref) is list)
             assert (len(ref) > 0)
-
+            # Convert to UTF-8 if necessary
+            for j in range(len(hypo)):
+                if type(hypo[j]) == str:
+                    hypo[j] = hypo[j].decode('utf-8')
+            for j in range(len(ref)):
+                if type(ref[j]) == str:
+                    ref[j] = ref[j].decode('utf-8')
         average_score = np.mean(np.array(score))
         return average_score, np.array(score)
 

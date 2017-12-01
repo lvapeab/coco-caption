@@ -33,6 +33,14 @@ class Bleu:
             assert (type(ref) is list)
             assert (len(ref) >= 1)
 
+            # Convert to UTF-8 if necessary
+            for j in range(len(hypo)):
+                if type(hypo[j]) == str:
+                    hypo[j] = hypo[j].decode('utf-8')
+            for j in range(len(ref)):
+                if type(ref[j]) == str:
+                    ref[j] = ref[j].decode('utf-8')
+
             bleu_scorer += (hypo[0], ref)
 
         # score, scores = bleu_scorer.compute_score(option='shortest')
