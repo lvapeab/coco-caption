@@ -20,8 +20,8 @@ def precook(s, n=4, out=False):
     """
     words = s.split()
     counts = defaultdict(int)
-    for k in xrange(1, n + 1):
-        for i in xrange(len(words) - k + 1):
+    for k in range(1, n + 1):
+        for i in range(len(words) - k + 1):
             ngram = tuple(words[i:i + k])
             counts[ngram] += 1
     return counts
@@ -102,9 +102,9 @@ class CiderScorer(object):
         The term frequency is stored in the object
         :return: None
         '''
-        for refs in self.crefs:
+        for refs in list(self.crefs):
             # refs, k ref captions of one image
-            for ngram in set([ngram for ref in refs for (ngram, count) in ref.iteritems()]):
+            for ngram in set([ngram for ref in refs for (ngram,count) in ref.items()]):
                 self.document_frequency[ngram] += 1
                 # maxcounts[ngram] = max(maxcounts.get(ngram,0), count)
 
@@ -120,7 +120,7 @@ class CiderScorer(object):
             vec = [defaultdict(float) for _ in range(self.n)]
             length = 0
             norm = [0.0 for _ in range(self.n)]
-            for (ngram, term_freq) in cnts.iteritems():
+            for (ngram,term_freq) in cnts.items():
                 # give word count 1 if it doesn't appear in reference corpus
                 df = np.log(max(1.0, self.document_frequency[ngram]))
                 # ngram index
@@ -151,7 +151,7 @@ class CiderScorer(object):
             val = np.array([0.0 for _ in range(self.n)])
             for n in range(self.n):
                 # ngram
-                for (ngram, count) in vec_hyp[n].iteritems():
+                for (ngram,count) in vec_hyp[n].items():
                     # vrama91 : added clipping
                     val[n] += min(vec_hyp[n][ngram], vec_ref[n][ngram]) * vec_ref[n][ngram]
 

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+from six import iteritems
 __author__ = 'tylin'
 from bleu.bleu import Bleu
 from cider.cider import Cider
@@ -27,7 +30,7 @@ class COCOEvalCap:
         # =================================================
         # Set up scorers
         # =================================================
-        print 'tokenization...'
+        print ('tokenization...')
         tokenizer = PTBTokenizer()
         gts = tokenizer.tokenize(gts)
         res = tokenizer.tokenize(res)
@@ -35,7 +38,7 @@ class COCOEvalCap:
         # =================================================
         # Set up scorers
         # =================================================
-        print 'setting up scorers...'
+        print ('setting up scorers...')
         scorers = [
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(), "METEOR"),
@@ -47,17 +50,17 @@ class COCOEvalCap:
         # Compute scores
         # =================================================
         for scorer, method in scorers:
-            print 'computing %s score...' % (scorer.method())
+            print ('computing %s score...' % (scorer.method()))
             score, scores = scorer.compute_score(gts, res)
             if type(method) == list:
                 for sc, scs, m in zip(score, scores, method):
                     self.setEval(sc, m)
-                    self.setImgToEvalImgs(scs, gts.keys(), m)
-                    print "%s: %0.3f" % (m, sc)
+                    self.setImgToEvalImgs(scs, list(gts), m)
+                    print ("%s: %0.3f" % (m, sc))
             else:
                 self.setEval(score, method)
-                self.setImgToEvalImgs(scores, gts.keys(), method)
-                print "%s: %0.3f" % (method, score)
+                self.setImgToEvalImgs(scores, list(gts), method)
+                print ("%s: %0.3f" % (method, score))
         self.setEvalImgs()
 
     def setEval(self, score, method):
@@ -71,4 +74,4 @@ class COCOEvalCap:
             self.imgToEval[imgId][method] = score
 
     def setEvalImgs(self):
-        self.evalImgs = [eval for imgId, eval in self.imgToEval.items()]
+        self.evalImgs = [eval for imgId, eval in list(iteritems(self.imgToEval))]

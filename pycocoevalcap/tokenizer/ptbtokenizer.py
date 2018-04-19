@@ -8,6 +8,7 @@
 # Last Modified : Thu Mar 19 09:53:35 2015
 # Authors : Hao Fang <hfang@uw.edu> and Tsung-Yi Lin <tl483@cornell.edu>
 
+from six import iteritems
 import os
 import subprocess
 import tempfile
@@ -32,8 +33,8 @@ class PTBTokenizer:
         # prepare data for PTB Tokenizer
         # ======================================================
         final_tokenized_captions_for_image = {}
-        image_id = [k for k, v in captions_for_image.items() for _ in range(len(v))]
-        sentences = '\n'.join([c['caption'].replace('\n', ' ') for k, v in captions_for_image.items() for c in v])
+        image_id = [k for k, v in list(iteritems(captions_for_image)) for _ in range(len(v))]
+        sentences = '\n'.join([c['caption'].replace('\n', ' ') for k, v in list(iteritems(captions_for_image)) for c in v])
 
         # ======================================================
         # save hypothesis to temporary file

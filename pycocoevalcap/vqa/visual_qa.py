@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+from six import iteritems
 __author__ = 'aagrawal'
 __version__ = '0.9'
 
@@ -80,8 +83,8 @@ class VQA:
         Print information about the VQA annotation file.
         :return:
         """
-        for key, value in self.datset['info'].items():
-            print '%s: %s' % (key, value)
+        for key, value in list(iteritems(self.datset['info'])):
+            print ('%s: %s' % (key, value))
 
     def getQuesIds(self, imgIds=[], quesTypes=[], ansTypes=[]):
         """
@@ -152,9 +155,9 @@ class VQA:
             return 0
         for ann in anns:
             quesId = ann['question_id']
-            print "Question: %s" % (self.qqa[quesId]['question'])
+            print ("Question: %s" % (self.qqa[quesId]['question']))
             for ans in ann['answers']:
-                print "Answer %d: %s" % (ans['answer_id'], ans['answer'])
+                print ("Answer %d: %s" % (ans['answer_id'], ans['answer']))
 
     def loadRes(self, resFile, quesFile):
         """

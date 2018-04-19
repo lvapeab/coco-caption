@@ -8,7 +8,7 @@
 # Author : Ramakrishna Vedantam <vrama91@vt.edu>
 
 import numpy as np
-
+import sys
 
 def my_lcs(string, sub):
     """
@@ -84,8 +84,8 @@ class Rouge():
         :param ref_for_image: dict : reference MS-COCO hypothesis with "image name" img_id and "tokenized hypothesis" as values
         :returns: average_score: float (mean ROUGE-L score computed by averaging scores for all the images)
         """
-        assert (gts.keys() == res.keys())
-        imgIds = gts.keys()
+        assert (list(gts) == list(res))
+        imgIds = list(gts)
 
         score = []
         for id in imgIds:
@@ -99,13 +99,15 @@ class Rouge():
             assert (len(hypo) == 1)
             assert (type(ref) is list)
             assert (len(ref) > 0)
-            # Convert to UTF-8 if necessary
-            for j in range(len(hypo)):
-                if type(hypo[j]) == str:
-                    hypo[j] = hypo[j].decode('utf-8')
-            for j in range(len(ref)):
-                if type(ref[j]) == str:
-                    ref[j] = ref[j].decode('utf-8')
+            if sys.version_info.major == 2:
+
+                # Convert to UTF-8 if necessary
+                for j in range(len(hypo)):
+                    if type(hypo[j]) == str:
+                        hypo[j] = hypo[j].decode('utf-8')
+                for j in range(len(ref)):
+                    if type(ref[j]) == str:
+                        ref[j] = ref[j].decode('utf-8')
         average_score = np.mean(np.array(score))
         return average_score, np.array(score)
 

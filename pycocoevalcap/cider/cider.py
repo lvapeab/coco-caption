@@ -7,7 +7,8 @@
 #
 # Authors: Ramakrishna Vedantam <vrama91@vt.edu> and Tsung-Yi Lin <tl483@cornell.edu>
 
-from cider_scorer import CiderScorer
+from pycocoevalcap.cider.cider_scorer import CiderScorer
+import sys
 
 
 class Cider:
@@ -30,8 +31,8 @@ class Cider:
         :return: cider (float) : computed CIDEr score for the corpus 
         """
 
-        assert (gts.keys() == res.keys())
-        imgIds = gts.keys()
+        assert (list(gts) == list(res))
+        imgIds = list(gts)
 
         cider_scorer = CiderScorer(n=self._n, sigma=self._sigma)
 
@@ -44,13 +45,14 @@ class Cider:
             assert (len(hypo) == 1)
             assert (type(ref) is list)
             assert (len(ref) > 0)
-            # Convert to UTF-8 if necessary
-            for j in range(len(hypo)):
-                if type(hypo[j]) == str:
-                    hypo[j] = hypo[j].decode('utf-8')
-            for j in range(len(ref)):
-                if type(ref[j]) == str:
-                    ref[j] = ref[j].decode('utf-8')
+            if sys.version_info.major == 2:
+                # Convert to UTF-8 if necessary
+                for j in range(len(hypo)):
+                    if type(hypo[j]) == str:
+                        hypo[j] = hypo[j].decode('utf-8')
+                for j in range(len(ref)):
+                    if type(ref[j]) == str:
+                        ref[j] = ref[j].decode('utf-8')
             cider_scorer += (hypo[0], ref)
 
         (score, scores) = cider_scorer.compute_score()

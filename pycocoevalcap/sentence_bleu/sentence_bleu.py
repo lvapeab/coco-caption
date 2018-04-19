@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division
-
+from six import iteritems
+from functools import reduce
 from math import exp
 from operator import mul
 from collections import defaultdict
 
-from scorer import Scorer
-from reference import Reference
+from pycocoevalcap.sentence_bleu.scorer import Scorer
+from pycocoevalcap.sentence_bleu.reference import Reference
 
 class SentenceBleuScorer(Scorer):
     """
@@ -21,7 +22,7 @@ class SentenceBleuScorer(Scorer):
         """
         Scorer.__init__(self, argument_string)
         # use n-gram order of 4 by default
-        if not 'n' in self._arguments.keys():
+        if not 'n' in list(self._arguments):
             self._arguments['n'] = 4
 
     def set_reference(self, reference_tokens):
@@ -76,7 +77,7 @@ class SentenceBleuReference(Reference):
             precisions = []
             for n in range(1, self.n+1):
                 overlap = 0
-                for ref_ngram, ref_ngram_count in ref_ngrams[n-1].iteritems():
+                for ref_ngram, ref_ngram_count in iteritems(ref_ngrams[n-1]):
                     if ref_ngram in hyp_ngrams[n-1]:
                         overlap += min(ref_ngram_count, hyp_ngrams[n-1][ref_ngram])
                 hyp_length = max(0, len(hypothesis_tokens)-n+1)

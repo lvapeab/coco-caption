@@ -13,8 +13,8 @@ from math import exp
 from operator import mul
 from collections import defaultdict
 
-from scorer import Scorer
-from reference import Reference
+from pycocoevalcap.sentence_ter.scorer import Scorer
+from pycocoevalcap.sentence_ter.reference import Reference
 
 # Assumes tercom.7.25 and tercom.7.25.jar is in the ../ter/ directory.  Change as needed.
 TER_JAR = '../ter/tercom.7.25'

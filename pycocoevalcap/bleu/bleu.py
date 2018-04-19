@@ -8,8 +8,8 @@
 # Last Modified : Thu 19 Mar 2015 09:13:28 PM PDT
 # Authors : Hao Fang <hfang@uw.edu> and Tsung-Yi Lin <tl483@cornell.edu>
 
-from bleu_scorer import BleuScorer
-
+from pycocoevalcap.bleu.bleu_scorer import BleuScorer
+import sys
 
 class Bleu:
     def __init__(self, n=4):
@@ -19,8 +19,8 @@ class Bleu:
         self.ref_for_image = {}
 
     def compute_score(self, gts, res):
-        assert (gts.keys() == res.keys())
-        imgIds = gts.keys()
+        assert (list(gts) == list(res))
+        imgIds = list(gts)
 
         bleu_scorer = BleuScorer(n=self._n)
         for id in imgIds:
@@ -34,12 +34,13 @@ class Bleu:
             assert (len(ref) >= 1)
 
             # Convert to UTF-8 if necessary
-            for j in range(len(hypo)):
-                if type(hypo[j]) == str:
-                    hypo[j] = hypo[j].decode('utf-8')
-            for j in range(len(ref)):
-                if type(ref[j]) == str:
-                    ref[j] = ref[j].decode('utf-8')
+            if sys.version_info.major == 2:
+                for j in range(len(hypo)):
+                    if type(hypo[j]) == str:
+                        hypo[j] = hypo[j].decode('utf-8')
+                for j in range(len(ref)):
+                    if type(ref[j]) == str:
+                        ref[j] = ref[j].decode('utf-8')
 
             bleu_scorer += (hypo[0], ref)
 

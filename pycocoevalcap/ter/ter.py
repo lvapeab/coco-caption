@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
 
 # Python wrapper for TER implementation, by Alvaro Peris.
 # Based on the Meteor implementation from PycocoEvalCap
@@ -7,6 +9,7 @@ import subprocess
 import threading
 import random
 import codecs
+import sys
 # Assumes tercom.7.25 and tercom.7.25.jar is in the same directory as ter.py.  Change as needed.
 
 TER_JAR = 'tercom.7.25'
@@ -26,7 +29,7 @@ class Ter:
         self.lock = threading.Lock()
 
     def compute_score(self, gts, res):
-        assert (gts.keys() == res.keys())
+        assert (list(gts) == list(res))
         imgIds = gts.keys()
         self.lock.acquire()
         gts_ter = ''
@@ -36,9 +39,11 @@ class Ter:
             assert (len(res[i]) == 1)
             if len(gts[i]) > 1:
                 warn = True
-            for j in range(len(gts[i])):
-                if type(gts[i][j]) == str:
-                    gts[i][j] = gts[i][j].decode('utf-8')
+            if sys.version_info.major == 2:
+                for j in range(len(gts[i])):
+                    # Convert to UTF-8 if necessary
+                    if type(gts[i][j]) == str:
+                        gts[i][j] = gts[i][j].decode('utf-8')
 
             gts_ter += gts[i][0] + u'\t(sentence%d)\n' % i
             res_ter += res[i][0] + u'\t(sentence%d)\n' % i
@@ -47,7 +52,7 @@ class Ter:
             with codecs.open(self.hyp_filename, 'w', encoding='utf-8') as f:
                 f.write(res_ter)
         if warn:
-            print "Warning! Multi-reference TER unimplemented!"
+            print ("Warning! Multi-reference TER unimplemented!")
         self.ter_p = subprocess.Popen(self.ter_cmd, cwd=os.path.dirname(os.path.abspath(__file__)),
                                       stdout=subprocess.PIPE, shell=True, env=self.d)
         score = self.ter_p.stdout.read()

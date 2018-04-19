@@ -44,6 +44,7 @@ __version__ = '2.0'
 # Code written by Piotr Dollar and Tsung-Yi Lin, 2014.
 # Licensed under the Simplified BSD License [see bsd.txt]
 
+from six import iteritems
 import json
 import time
 import matplotlib.pyplot as plt
@@ -118,7 +119,7 @@ class COCO:
         Print information about the annotation file.
         :return:
         """
-        for key, value in self.dataset['info'].items():
+        for key, value in list(iteritems(self.dataset['info'])):
             print('{}: {}'.format(key, value))
 
     def getAnnIds(self, imgIds=[], catIds=[], areaRng=[], iscrowd=None):
@@ -182,7 +183,7 @@ class COCO:
         catIds = catIds if type(catIds) == list else [catIds]
 
         if len(imgIds) == len(catIds) == 0:
-            ids = self.imgs.keys()
+            ids = list(self.imgs)
         else:
             ids = set(imgIds)
             for i, catId in enumerate(catIds):
