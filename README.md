@@ -19,6 +19,12 @@ Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)) an
 export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 ```
 
+## Setup ##
+
+- You will first need to download the [Stanford CoreNLP 3.6.0](http://stanfordnlp.github.io/CoreNLP/index.html) code and models for use by SPICE. To do this, run:
+    ./get_stanford_models.sh
+- Note: SPICE will try to create a cache of parsed sentences in ./pycocoevalcap/spice/cache/. This dramatically speeds up repeated evaluations. The cache directory can be moved by setting 'CACHE_DIR' in ./pycocoevalcap/spice. In the same file, caching can be turned off by removing the '-cache' argument to 'spice_cmd'. 
+
 ## References ##
 
 - [Microsoft COCO Captions: Data Collection and Evaluation Server](http://arxiv.org/abs/1504.00325)
@@ -28,6 +34,7 @@ export PYTHONPATH="/path/to/coco-caption:$PYTHONPATH"
 - Rouge-L: [ROUGE: A Package for Automatic Evaluation of Summaries](http://anthology.aclweb.org/W/W04/W04-1013.pdf)
 - CIDEr: [CIDEr: Consensus-based Image Description Evaluation](http://arxiv.org/pdf/1411.5726.pdf)
 - TER: [Translation Edit Rate with Targeted Human Annotation](https://www.cs.umd.edu/~snover/pub/amta06/ter_amta.pdf)
+- SPICE: [SPICE: Semantic Propositional Image Caption Evaluation](https://arxiv.org/abs/1607.08822)
 
 ## Developers ##
 - Xinlei Chen (CMU)
