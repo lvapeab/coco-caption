@@ -28,7 +28,7 @@ class Cider:
         Main function to compute CIDEr score
         :param  hypo_for_image (dict) : dictionary with img_id <image> and value <tokenized hypothesis / candidate sentence>
                 ref_for_image (dict)  : dictionary with img_id <image> and value <tokenized reference sentence>
-        :return: cider (float) : computed CIDEr score for the corpus 
+        :return: cider (float) : computed CIDEr score for the corpus
         """
 
         assert (list(gts) == list(res))
