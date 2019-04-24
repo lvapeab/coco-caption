@@ -11,7 +11,7 @@ Update!: Now supports TER (using [tercom](https://github.com/jhclark/tercom)) an
 
 ## Requirements ##
 - java 1.8.0
-- python 2.7
+- python (2.7, 3.5+)
 
 ## Installation ##
 
