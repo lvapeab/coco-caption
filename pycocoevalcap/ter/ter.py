@@ -16,7 +16,7 @@ TER_JAR = 'tercom.7.25'
 
 
 class Ter:
-    def __init__(self, additional_flags=''):
+    def __init__(self, additional_flags=' -s '):
         self.d = dict(os.environ.copy())
         self.d['LANG'] = 'C'
         extension = str(random.randint(0, 10000000))
