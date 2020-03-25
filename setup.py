@@ -8,5 +8,5 @@ setup(name='coco-caption',
       url='https://github.com/lvapeab/coco-caption',
       download_url='https://github.com/lvapeab/coco-caption/archive/master.zip',
       packages=find_packages(),
-      include_package_data = True
+      include_package_data=True
       )
